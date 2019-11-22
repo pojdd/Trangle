@@ -1,0 +1,13 @@
+#version 300 es
+layout (location = 0) in vec4 vPosition;
+//接收颜色数据的输入变量
+layout (location = 1) in vec4 aColor;
+//输出变量
+out vec4 vColor;
+uniform mat4 matrix;
+void main()
+{
+    gl_Position = matrix*vPosition;
+    //给输出变量赋值
+    vColor = aColor;
+}

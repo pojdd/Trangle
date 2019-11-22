@@ -1,0 +1,10 @@
+#version 300 es
+precision mediump float;
+//接收颜色数据的输入变量
+in vec4 vColor;
+out vec4 fragColor;
+void main()
+{                                            
+	//将颜色数据输出
+	fragColor = vColor;	
+}       
