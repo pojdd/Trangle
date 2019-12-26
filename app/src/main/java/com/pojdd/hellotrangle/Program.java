@@ -7,6 +7,11 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.opengl.GLES20.glGetUniformLocation;
+import static android.opengl.GLES20.glUniform1f;
+import static android.opengl.GLES20.glUniform4f;
+import static android.opengl.GLES20.glUniformMatrix4fv;
+
 public class Program {
     private static final String TAG = "Shader";
     String VS;//顶点sharder
@@ -91,5 +96,22 @@ public class Program {
     }
     public int getProgram(){
         return program;
+    }
+
+    public void  setUniform1f(String n,float m){
+        int t = glGetUniformLocation(program, n);
+        glUniform1f(t,m);
+    }
+    public void  setUniform4f(String n,float x,float y,float z,float w){
+        int t = glGetUniformLocation(program, n);
+        glUniform4f(t,x,y,z,w);
+    }
+    public void setUniformMatrix4fv(String name,int count,
+                                    boolean transpose,
+                                    float[] value,
+                                    int offset){
+        int matrixLoc = glGetUniformLocation(program, name);
+        glUniformMatrix4fv(matrixLoc, count, transpose, value, offset);
+
     }
 }

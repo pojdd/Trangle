@@ -6,8 +6,9 @@ import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.MotionEvent;
+
+import static java.lang.Math.*;
 
 public class MainActivity extends Activity {
 
@@ -28,8 +29,6 @@ public class MainActivity extends Activity {
         }
         Program.context=this;
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//隐藏状态栏
         //使用 opengles 3.0
         glSurfaceView.setEGLContextClientVersion(GL_VERSION);
         //设置渲染器
@@ -56,5 +55,25 @@ public class MainActivity extends Activity {
         super.onPause();
         //暂停渲染
         glSurfaceView.onPause();
+    }
+    float x,y;
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        int Action = event.getAction();
+        float X = event.getX();
+        float Y = event.getY();
+        if(Action==0){
+            x=event.getX();
+            y=event.getY();
+        }else if(Action==2){
+            double L=sqrt((X-x)*(X-x)+(Y-y)*(Y-y));
+            Camera.rmove((float)(-(X-x)/(L*30)),(float)((Y-y)/(L*30)));
+        }
+        if(Camera.tx<-1.5f)Camera.tx=-1.5f;
+        if(Camera.ty<-1.0f)Camera.ty=-1.0f;
+        if(Camera.tx>1.5f)Camera.tx=1.5f;
+        if(Camera.ty>1.0f)Camera.ty=1.0f;
+        Log.d(TAG, "onTouchEvent: "+Action+"-"+X+":"+Y);
+        return true;
     }
 }

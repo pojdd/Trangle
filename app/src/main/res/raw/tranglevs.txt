@@ -1,13 +1,21 @@
 #version 300 es
 layout (location = 0) in vec4 vPosition;
 //接收颜色数据的输入变量
-layout (location = 1) in vec4 aColor;
+//layout (location = 1) in vec4 aColor;
 //输出变量
-out vec4 vColor;
+//out vec4 vColor;
+out vec4 vpos;
 uniform mat4 matrix;
+uniform vec4 st;
+uniform float angle;
 void main()
 {
-    gl_Position = matrix*vPosition;
-    //给输出变量赋值
-    vColor = aColor;
+    vpos=vPosition;
+    //vColor = aColor;
+    gl_Position=vPosition;
+    //先进行缩放操作，然后是旋转，最后才是位移,然后正交化
+    gl_Position=vec4(gl_Position.x*st.x,gl_Position.y*st.y,0,1);//缩放
+    gl_Position=vec4(gl_Position.x*cos(angle)-sin(angle)*gl_Position.y,sin(angle)*gl_Position.x+cos(angle)*gl_Position.y,0,1);//旋转
+    gl_Position=vec4(gl_Position.x+st.z,gl_Position.y+st.w,0,1);//移动
+    gl_Position = matrix*gl_Position;//正交化
 }

@@ -1,10 +1,13 @@
 #version 300 es
 precision mediump float;
 //接收颜色数据的输入变量
-in vec4 vColor;
+//in vec4 vColor;
+in vec4 vpos;
 out vec4 fragColor;
+uniform float time;
 void main()
-{                                            
+{
 	//将颜色数据输出
-	fragColor = vColor;	
-}       
+	fragColor =vec4(sin(time+vpos.x)/2.0f+0.5f,time*vpos.y,time/vpos.z,0);
+	//fragColor=vColor;
+}
